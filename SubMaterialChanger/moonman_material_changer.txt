@@ -47,6 +47,7 @@ IndexAliasses = table(
     "Jacket" = 2,
     "Shirt"  = 3,
     "Hands" = 4,
+    "CuffLinks = 5,
     "Pants" = 6,
     "Lenses" = 7,
     "Frame" = 8,
