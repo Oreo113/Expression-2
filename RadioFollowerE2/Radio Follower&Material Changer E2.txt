@@ -1,0 +1,132 @@
+@name Radio E2 Follower E2 (By Oreo)
+@outputs Mode Counter Max MeS:string
+@persist List:array Col Me:entity PLA:entity Commands:table Prefix:string WDJ:entity
+runOnTick(1)
+runOnChat(1)
+if (first()) { 
+    print("{!cyan [R.C.M.D.]} Type !RCMD for a list of all commands.")
+    Me = owner()
+}
+        function colorOnCommand(Player:entity, Arguments:array) {
+            Col = 1
+        
+        function colorOffCommand(Player:entity, Arguments:array) {
+            Col = 0
+        }
+    }
+
+A = owner():lastSaid():explode(" ")
+# +CommandList
+function rcmdCommand(Player:entity, Arguments:array) {
+    print("{!cyan [R.C.M.D] COMMANDS} ")
+    print("!Ghost")
+    print("!Dark")
+    print("!Hole")
+    print("!Wire")
+    print("!ColorOn & !ColorOff (RGB)")
+    print("!MatOff (Removes Material)")
+    print("!Remove (Deletes E2)")
+}
+# -CommandList
+    
+    if (chatClk(owner())) {
+        function removeCommand(Player:entity, Arguments:array) { 
+            selfDestruct()
+            print("{red Chip Removed}")
+        }
+    }
+
+if ((MeS != "") & (Me:name():lower():find(MeS:lower()) == 0)) {
+    Me = findPlayerByName(MeS)
+}
+if (tickClk()) {
+    findIncludePlayerProps(owner())
+    findByClass("wdj_radio")
+    
+    if (Max != findToArray():count()) {
+        List = findToArray()
+        Max = List:count()
+    }
+    Counter++
+    WDJ = List:entity(Counter)
+    if  (WDJ:mass() != 100000000000) {
+         WDJ:setMass(100000000000)
+    }
+    if (Col) {
+         WDJ:setColor(randint(255), randint(255), randint(255))
+         WDJ:setMaterial("models/player/shared/ice_player")
+    } else {
+         WDJ:setColor(255, 255, 255)
+        
+function wireCommand(Player:entity, Arguments:array) {
+        WDJ:setMaterial("models/wireframe") 
+}
+function holeCommand(Player:entity, Arguments:array) {
+        WDJ:setMaterial("z_easyskins/camo/blackhole") 
+}
+function darkCommand(Player:entity, Arguments:array) {
+        WDJ:setMaterial("z_easyskins/camo/dark_pulse") 
+}
+function ghostCommand(Player:entity, Arguments:array) {
+        WDJ:setMaterial("Models/effects/vol_light001") 
+}
+function matOffCommand(Player:entity, Arguments:array) {
+        WDJ:setMaterial("") 
+}
+    }
+    AddCircle = curtime() * 0 + 0 / Max * Counter
+    CircMult = 0 * Max / pi()
+    CircZPlus = sin(curtime() * 0 + 0 / Max * Counter) * 0 + 0
+    
+    WDJ:applyForce(((Me:shootPos() + vec(sin(AddCircle) * CircMult, cos(AddCircle) * CircMult, 45 + CircZPlus) - WDJ:pos()) * 15 - WDJ:vel()) * WDJ:mass())
+}
+if (Counter > Max) {
+    Counter = 0
+}
+if (PLA != owner()) {
+    Version = 1.71
+    PLA = owner()
+
+
+
+Prefix = "!"
+Commands = table(
+   "ColorOff" = "colorOffCommand" # when the example command gets run, it call this function
+   ,"ColorOn" = "colorOnCommand" 
+   ,"Flesh" = "fleshCommand"
+   ,"Wire" = "wireCommand"
+   ,"Hole" = "holeCommand" #Oreos Favorite#
+   ,"Dark" = "darkCommand"
+   ,"Ghost" = "ghostCommand"
+   ,"MatOff" = "matOffCommand"
+   ,"Remove" = "removeCommand"
+   ,"RCMD" = "rcmdCommand"
+)
+event chat(Player:entity, Message:string, Team:number) {
+    array(Team) # dispose of the team argument so that we dont get the silly warning
+    if (Player != owner()) { exit() } # only the owner should be allowed to run the commands
+    
+    local MessagePrefix = Message:sub(1, 1)
+    if (MessagePrefix != Prefix) { exit() } # If the prefix is not what we expect, stop here
+    hideChat(1)
+    
+    local Message = Message:sub(2) # Remove the prefix from the message
+    local Arguments = Message:explode(" ") # Split the command by spaces
+    
+    local Command = Arguments[1, string]
+    Arguments:remove(1) # remove the initial command so that we just have the rest of the arguments
+    
+     if (Commands:exists(Command)) {
+        try {
+            Commands[Command, string](Player, Arguments)
+        } catch (Error) {
+            print(format("Failed to run callback '%s'\nError: %s", Command, Error))
+        }
+    } else {
+        print("{red Command not found!}")
+    }
+}
+
+}
+#Made By Oreo# #Big credit to Meowlan for the help#
+#E2 Meant for the wdj_radio addon#
