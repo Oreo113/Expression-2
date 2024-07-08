@@ -5,7 +5,7 @@ if(first() | duped()) {
  print("{#d4af37 Made By Oreo, Umer Patek & Meowlan}")
  print("{black Type /Help for a list of commands}")
 }
-#include "Config"
+#include "MoonManConfig"
 setPrefix("!")
 MaterialAliasses = table(
     #+############MATERIAL_LIST############+#
