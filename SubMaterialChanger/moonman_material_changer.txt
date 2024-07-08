@@ -2,7 +2,6 @@
 @persist [MaterialAliasses IndexAliasses]:table
 if(first() | duped()) {
     runOnChat(1)
- print("{blue You Bought The Lunar Operative CC, So You Have Now Received This Rad E2!}")
  print("{#d4af37 Made By Oreo, Umer Patek & Meowlan}")
  print("{black Type /Help for a list of commands}")
 }
