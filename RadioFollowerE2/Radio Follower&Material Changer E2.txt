@@ -7,6 +7,8 @@ if (first()) {
     print("{!cyan [R.C.M.D.]} Type !RCMD for a list of all commands.")
     Me = owner()
 }
+
+    
         function colorOnCommand(Player:entity, Arguments:array) {
             Col = 1
         
@@ -30,6 +32,7 @@ function rcmdCommand(Player:entity, Arguments:array) {
 # -CommandList
     
     if (chatClk(owner())) {
+        # Owner commands
         function removeCommand(Player:entity, Arguments:array) { 
             selfDestruct()
             print("{red Chip Removed}")
@@ -57,7 +60,11 @@ if (tickClk()) {
          WDJ:setMaterial("models/player/shared/ice_player")
     } else {
          WDJ:setColor(255, 255, 255)
-        
+         
+      
+
+ 
+ 
 function wireCommand(Player:entity, Arguments:array) {
         WDJ:setMaterial("models/wireframe") 
 }
@@ -72,13 +79,14 @@ function ghostCommand(Player:entity, Arguments:array) {
 }
 function matOffCommand(Player:entity, Arguments:array) {
         WDJ:setMaterial("") 
+        
 }
     }
     AddCircle = curtime() * 0 + 0 / Max * Counter
     CircMult = 0 * Max / pi()
     CircZPlus = sin(curtime() * 0 + 0 / Max * Counter) * 0 + 0
     
-    WDJ:applyForce(((Me:shootPos() + vec(sin(AddCircle) * CircMult, cos(AddCircle) * CircMult, 45 + CircZPlus) - WDJ:pos()) * 15 - WDJ:vel()) * WDJ:mass())
+    WDJ:applyForce(((Me:shootPos() + vec(sin(AddCircle) * CircMult, cos(AddCircle) * CircMult, 75 + CircZPlus) - WDJ:pos()) * 7 - WDJ:vel()) * WDJ:mass())
 }
 if (Counter > Max) {
     Counter = 0
@@ -87,7 +95,9 @@ if (PLA != owner()) {
     Version = 1.71
     PLA = owner()
 
-
+function exampleCommand(Player:entity, Arguments:array) { # function to be called for the example command
+    print(format("%s [%s]", Player, Arguments:concat(", ")))
+}
 
 Prefix = "!"
 Commands = table(
@@ -101,6 +111,7 @@ Commands = table(
    ,"MatOff" = "matOffCommand"
    ,"Remove" = "removeCommand"
    ,"RCMD" = "rcmdCommand"
+    
 )
 event chat(Player:entity, Message:string, Team:number) {
     array(Team) # dispose of the team argument so that we dont get the silly warning
@@ -130,3 +141,4 @@ event chat(Player:entity, Message:string, Team:number) {
 }
 #Made By Oreo# #Big credit to Meowlan for the help#
 #E2 Meant for the wdj_radio addon#
+
