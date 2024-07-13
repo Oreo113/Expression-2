@@ -1,4 +1,4 @@
-#This is a radio E2 Made to follow you and will also change the radio material#
+#This is a radio E2 Made to follow you and made to also change the radio material#
 
 
 
