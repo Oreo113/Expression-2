@@ -1,14 +1,16 @@
-@name MoonMan Material Changer
-@persist [MaterialAliasses IndexAliasses]:table
-if(first() | duped()) {
-    runOnChat(1)
- print("{#d4af37 Made By Oreo, Umer Patek & Meowlan}")
- print("{black Type /Help for a list of commands}")
-}
-#include "Config"
+@name SubMat Changer
+@persist [MaterialAliasses IndexAliasses Outfit]:table
+ print("{black Type !Help for a list of commands}")
+ print("{black (Example Command) !Mat Head Gold}")
+ print("{black Refer to the top of the code for a list of materials}")
+ print("{#d4af37 Made By Oreo, Umer Patek, Meowlan & Donk!!!!!!!}")
+#include "MoonManConfig"
+#include "timers!"
+
 setPrefix("!")
+
 MaterialAliasses = table(
-    #+############MATERIAL_LIST############+#
+     #+############MATERIAL_LIST############+#
     "Gold" = "z_easyskins/extra/tf2_gold",
     "Gold2" = "z_easyskins/camo/gold_matter",
     "Gold3" = "z_easyskins/camo/gold",
@@ -20,7 +22,7 @@ MaterialAliasses = table(
     "Flesh" = "models/flesh",
     "Wire" = "models/wireframe",
     "BlackHole" = "z_easyskins/camo/blackhole",
-    "Ghost" = "Models/effects/vol_light001",
+    "Ghost" = "vgui/screens/transparent",
     "Angel" = "model_color",
     "BGE" = "models/shadertest/vertexlitselfilluminatedtexture",
     "Strobe" = "props_casino/wheel_of_luck/ringlight_flashy",
@@ -38,7 +40,17 @@ MaterialAliasses = table(
     "Gimp" = "zerochain/props_lumina/fluorescenttube01/zld_fluorescenttube01_main",
     "Green" = "models/cheeze/pcb/pcb_base",
     "Red" = "models/gibs/computergibs/red",
-    "Grey" = "phoenix_storms/pack2/darkgrey"
+    "Grey" = "phoenix_storms/gear",
+    "Rain" = "models/shadertest/shader3",
+    "Ice" = "models/player/shared/ice_player",
+    "Blue" = "phoenix_storms/bluemetal",
+    "BluePattern" = "phoenix_storms/wire/pcb_blue",
+    "RedPattern" = "phoenix_storms/wire/pcb_red",
+    "GreenPattern" = "phoenix_storms/wire/pcb_green",
+    "Demon" = "models/XQM/LightLinesRed_tool",
+    "Plastic" = "phoenix_storms/plastic",
+    "Black" = "debug/env_cubemap_model",
+    "GreyGhost" = "vgui/screens/vgui_overlay"
     #-############MATERIAL_LIST############-#
 )
 
@@ -47,19 +59,16 @@ IndexAliasses = table(
     "Jacket" = 2,
     "Shirt"  = 3,
     "Hands" = 4,
+    "Cufflinks" = 5,
     "Pants" = 6,
     "Lenses" = 7,
     "Frame" = 8,
     "Tie" = 9
-)  
+)
 
-function submatCommand(Player:entity, Args:array) {
-    if (Args:count() != 2) {
-        print(format("Expected 2 arguments, got %d", Args:count()))    
-    }
-    
-    local IndexString = Args[1, string]
-    local Material = Args[2, string]
+Outfit = table()
+
+function setSubmatAliased(IndexString:string, Material:string) {
     local Index = 0
     
     if (IndexAliasses:exists(IndexString)) {
@@ -75,25 +84,37 @@ function submatCommand(Player:entity, Args:array) {
     }
     
     owner():setSubMaterial(Index, Material)
-    print(format("Set Submaterial %d to %s", Index, Material))
+    Outfit[Index, string] = Material    
+}
+
+function submatCommand(Player:entity, Args:array) {
+    if (Args:count() != 2) {
+        print(format("Expected 2 arguments, got %d", Args:count()))    
+    }
+    
+    local IndexString = Args[1, string]
+    local Material = Args[2, string]
+    
+    setSubmatAliased(IndexString, Material)
+    
+    print(format("Set submaterial %s to %s", IndexString, Material))
 }
 
 registerCommand("Mat", "submatCommand")
-########################################
-A = owner():lastSaid():explode(" ")
-if(A[1,string]:lower()=="/help" & chatClk(owner())) {
-    hideChat(chatClk(owner()))
-    print("!Mat Head (Material)")
-    print("!Mat Lenses (Material)")
-    print("!Mat Frame (Material)")
-    print("!Mat Tie (Material)")
-    print("!Mat Jacket (Material)")
-    print("!Mat Shirt (Material)")
-    print("!Mat Hands (Material)")
-    print("!Mat Pants (Material)")
-    print("{purple You can get material names from the list at the top of the E2.}")
+
+event playerSpawn(Player:entity) {
+    if (Player != owner()) { exit() }
+    timer(6, 1, "applyOutfit")
 }
 
- 
-#Big thanks to Meowlan and Umer Patek for helping me with this E2!#
+function applyOutfit(Self:table) {
+    foreach (K:number, V:string = Outfit) {
+        owner():setSubMaterial(K, V)    
+    }
+}
 
+function helpCommand(Player:entity, Args:array) {
+       print(format("Available Commands:\n%s", Commands:keys():concat(",\n")))
+}
+ registerCommand("Help", "helpCommand")
+#Even Bigger thanks to meowlan he is the best e2 coder ever! and umer for coming up with this idea, and donk cuz he is cool and helped#
