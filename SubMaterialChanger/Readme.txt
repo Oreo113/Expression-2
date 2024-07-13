@@ -7,3 +7,4 @@ Anywhere in your E2 folder you would like.
 
 Big thanks to Meowlan, Umer & Donk for the help with this E2!
 
+https://github.com/Meowlan/expression2
