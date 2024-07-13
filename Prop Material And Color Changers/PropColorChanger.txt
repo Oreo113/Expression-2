@@ -1,0 +1,76 @@
+@namePropColorChanger
+@persist Owner:entity PhysicsEntity:table
+
+
+if(first() | duped()) {
+ findByClass("prop_*")
+    findClipToPlayerProps(owner())
+    
+    local CurColor = vec4(255, 255, 255, 255)
+    local CurMaterial2 = "models/wireframe"  
+foreach(K, V:entity = findToArray()) {
+    if(V:getMaterial() == CurMaterial2) {
+    if(V:getColor4() == CurColor)    {  
+        
+    V:setColor(65, 0, 195, 255)
+}
+}
+}
+}
+
+#include "Timers!"
+if(first()) {
+local CurColor = vec4(255, 255, 255, 255)
+local CurMaterial = "model_color"  
+local CurMaterial2 = "models/wireframe"
+findByClass("prop_*")
+findClipToPlayerProps(owner())
+if(first()) {
+    local OldMaterial = "models/debug/debugwhite"                         
+    local NewMaterial = "model_color"                          
+    
+    local OldOneWay = "models/props_combine/tprings_globe"    
+    local NewOneWay = "vgui/screens/vgui_overlay"             
+    
+    
+    findByClass("prop_*")
+    findClipToPlayerProps(owner())
+    
+    foreach(K, V:entity = findToArray()) {
+        if(V:getMaterial() == OldMaterial) {
+            V:setMaterial(NewMaterial)  
+        }
+    }  
+    foreach(K, V:entity = findToArray()) {
+        if(V:getMaterial() == OldOneWay) {
+            V:setMaterial(NewOneWay)
+            V:setAlpha(1)
+        }
+    }
+}
+timer(1, 1, "colorSet")
+E1 = vec4(65, 0, 195, 255)
+function colorSet(Self:table){
+    local CurColor = vec4(255, 255, 255, 255)
+    local CurMaterial = "model_color"  
+foreach(K, V:entity = findToArray()) {
+    if(V:getMaterial() == CurMaterial) {
+    if(V:getColor4() == CurColor)    {  
+    V:setColor(65, 0, 195, 255)
+
+
+}
+}
+}
+}
+}
+
+####COLOR TABLE####
+#Green = (0, 127, 31, 255)
+#Blue = (0, 63, 255, 255)
+#Purple = (65, 0, 195, 255)
+#Orange = (255, 174, 0, 255)
+#Pink = (255, 0, 255, 255)
+#Red = (255, 0, 0, 255)
+####COLOR TABLE####
+#Just changer the V:setColor(65, 0, 195, 255) to whatever color code you want#

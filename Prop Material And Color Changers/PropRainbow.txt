@@ -1,0 +1,36 @@
+@namePropRainbow
+@persist Props:array Time Speed# we need to persist it so we can access it in an event
+
+# initialize our values
+Speed = 25 # this controls how fast the rainbow should be
+Props = array() 
+Time = 0
+
+findByClass("prop_physics")
+findClipToPlayerProps(owner()) # filter for only your props
+
+foreach (I:number, V:entity = findToArray()) {
+  if (V:getMaterial() == "model_color" && V:getColor4() == vec4(255, 255, 255, 255)) {
+    Props:pushEntity(V) # if it has the right material and color we add them to the array
+  }
+}
+foreach (I:number, V:entity = findToArray()) {
+  if (V:getMaterial() == "models/wireframe" && V:getColor4() == vec4(255, 255, 255, 255)) {
+    Props:pushEntity(V) # if it has the right material and color we add them to the array
+  }
+}
+event tick() {
+  foreach (I:number, V:entity = Props) { # loop over our props
+    V:setColor(hsv2rgb(Time, 1, 1)) # we get the color from the hsv color space
+  }  
+
+  Time += tickInterval() * Speed
+}
+
+event removed(Reset:number) {
+  # reset the props when the chip gets deleted
+  foreach (I:number, V:entity = Props) {
+    V:setColor(vec4(255, 255, 255, 255))
+  }
+}
+

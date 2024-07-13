@@ -1,0 +1,27 @@
+@name Material Thingy
+@persist Owner:entity PhysicsEntity:table
+
+if(first()) {
+    local OldMaterial = "models/debug/debugwhite"                       
+    local NewMaterial = "model_color"                          
+    
+    local OldOneWay = "models/props_combine/tprings_globe"     
+    local NewOneWay = "vgui/screens/vgui_overlay"              
+    
+    
+    findByClass("prop_*")
+    findClipToPlayerProps(owner())
+    
+    foreach(K, V:entity = findToArray()) {
+        if(V:getMaterial() == OldMaterial) {
+            V:setMaterial(NewMaterial)  
+        }
+    }  
+    foreach(K, V:entity = findToArray()) {
+        if(V:getMaterial() == OldOneWay) {
+            V:setMaterial(NewOneWay)
+            V:setAlpha(1)
+        }
+    }
+}
+
